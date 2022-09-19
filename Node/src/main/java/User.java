@@ -1,15 +1,14 @@
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class User {
     Socket socket;
-    InputStream in;
-    OutputStream out;
+    ObjectOutputStream outputStream;
+    ObjectInputStream inputStream;
 
-    public User(Socket socket, InputStream in, OutputStream out){
+    public User(Socket socket) throws IOException {
         this.socket = socket;
-        this.in = in;
-        this.out = out;
+        this.inputStream = new ObjectInputStream(socket.getInputStream());
+        this.outputStream = new ObjectOutputStream(socket.getOutputStream());
     }
 }

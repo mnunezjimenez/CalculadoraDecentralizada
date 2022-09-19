@@ -1,28 +1,29 @@
+import javax.sound.midi.Receiver;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 
-public class Client {
+public class Server {
     Socket socket;
-
-    public Client(String ip, Integer port) throws IOException {
+    private String answer;
+    public Server(String ip, Integer port) throws IOException {
         this.socket = new Socket("localhost",port);
     }
 
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Client client = new Client("localhost",8000);
-        ObjectOutputStream output = new ObjectOutputStream(client.socket.getOutputStream());
-        Thread threadReceiver = new ClientReceiver(client.socket);
+        Server server = new Server("localhost",8000);
+        ObjectOutputStream output = new ObjectOutputStream(server.socket.getOutputStream());
+        Thread threadReceiver = new ServerReceiver(server,output);
         threadReceiver.start();
-        while(true)
-        {
-            Scanner scanner = new Scanner(System.in);
-            String s = scanner.nextLine();
-            output.writeObject(s);
-        }
+        String tmpAnswer = "";
     }
 
     public String inputToString(InputStream in) throws IOException {

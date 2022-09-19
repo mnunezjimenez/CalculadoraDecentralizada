@@ -16,7 +16,7 @@ public class Sender extends Thread{
         ObjectOutputStream out = null;
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject(message + "\r\n");
+            out.writeObject(message);
             out.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
